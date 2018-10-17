@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+	<title>Package recommendation</title>
+	<meta charset="utf-8">
+	<meta name="description" content="با پر کردن این فرم نوع و ظرفیت پکیج مناسب شما 
+	پیشنهاد داده خواهد شد">
+	<link rel="stylesheet" type="text/css" href="rtl.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+	<style type="text/css">
+		
+		.container {
+				width: "viewport";
+				margin: 0 auto;
+				
+			}
+
+		.card {
+			background: #fff;
+			padding: 15px;
+			border-radius: 5px;
+			border: 1px solid #e1e1e1;
+			margin-top: 20px;
+		}
+
+		.q-title {
+			font-weight: bold;
+			font-family: 'Tahoma';
+		}
+
+		form div {
+			margin-bottom: 10px;
+		}
+
+		form label {
+			display: block;
+			margin-bottom: 5px;
+		}
+
+		form input, form button {
+			border: 1px solid #d1d1d1;
+			border-radius: 5px;
+			padding: 7px;
+			background: #f7f7f7;
+		}
+
+		form input:focus, form button:focus {
+			background: #fff;
+		}
+
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1 class=" rtl card">انتخاب پکیج</h1>
+	</header>
+
+	<form method="POST" action="/recommend-package">
+		<div class="container">
+			<section id="selection-form" class="card">
+
+				<div>
+					<label class="q-title"> سوال یک - نوع ساختمان:</label>
+					<label><input type="radio" value="1" name="Ans1" required /> ساختمان دو طبقه یا دوبلکس </label>
+					<label><input type="radio" value="2" name="Ans1"/> ساختمان سه طبقه یا تریبلکس </label>
+					<label><input type="radio" value="3" name="Ans1"/> ساختمان چهار طبقه </label>
+					<label><input type="radio" value="4" name="Ans1" checked/> یک واحد آپارتمانی </label>
+
+				</div>
+				<div>
+					<label for="areaBox" class="q-title">سوال دو - کل متراژ گرم شونده ساختمان مورد نظر: </label>
+					<input id="areaBox" width="1000px" value=75 type="number" name="area" placeholder="مترمربع" required />
+					<label>متر مربع</label>
+				</div>
+				
+				<div>
+					<label class="q-title">سوال سه - نوع سیستم گرمایشی بکار رفته در ساختمان:</label>
+					<label><input type="radio" value="1" name="Ans3" required checked/> انواع رادیاتور (آلومینیومی، پانل فولادی، پره فولادی) </label>
+					<label><input type="radio" value="2" name="Ans3"/> انواع فن کوئل یا داکت اسپلیت </label>
+					<label><input type="radio" value="3" name="Ans3"/> سیستم گرمایش از کف </label>
+					<label><input type="radio" value="3" name="Ans3"/> کوئل گرمایشی دستگاههای هوارسان (Air Handling Unit) </label>
+
+				</div>
+
+				<div>
+					<label class="q-title">سوال چهار - نوع سوخت مصرفی</label>
+					<label><input type="radio" value="1" name="Ans4" required checked/> لوله کشی گاز شهری </label>
+					<label><input type="radio" value="2" name="Ans4"/> گازوئیل </label>
+
+				</div>
+
+				<div>
+					<label class="q-title">سوال پنج - ارتفاع سقف اجرا شده در ساختمان </label>
+					<label><input type="radio" value="1" name="Ans5" required checked/> 2.5 الی 3 متر (ارتفاع سقف متدوال عمومی) </label>
+					<label><input type="radio" value="2" name="Ans5"/> 3 الی 4 متر </label>
+					<label><input type="radio" value="3" name="Ans5"/> 4 الی 5 متر </label>
+					<label><input type="radio" value="4" name="Ans5"/> 5 الی 6 متر </label>
+					<label><input type="radio" value="5" name="Ans5"/> 2 الی 2.5 متر </label>
+
+				</div>
+				
+				<div>
+					<label class="q-title">سوال شش - منطقه ای که پروژه در آن واقع شده است: </label>
+					<label><input list="States" value="گیلان" name="province" id="state_input"> استان </label>
+					<datalist id="States">
+						
+					</datalist>	
+
+					<label ><input list="Cities" value="رشت" name="city"  id="city_input" required/> شهر </label>
+					<datalist id="Cities">
+						
+					</datalist>	
+
+
+				</div>
+
+				<div>
+					<label class="q-title">سوال هفت - تعداد دوش های حمام که همزمان مورد بهره برداری قرار میگیرند</label>
+					<label><input type="radio" value="1" name="Ans7" required checked/> حداکثر فقط یک دوش حمام یا یک سرویس بهداشتی </label>
+					<label><input type="radio" value="2" name="Ans7"/> دو دوش حمام(استفاده بصورت همزمان با هم) </label>
+					<label><input type="radio" value="3" name="Ans7"/> سه دوش حمام(استفاده بصورت همزمان با هم) </label>
+					<label><input type="radio" value="3" name="Ans7"/> فاقد هرگونه دوش حمام یا سرویس بهداشتی و استفاده از پکیج صرفا به منظور گرمایش فضاها </label>
+					<label> (توضیح: بدلیل محدودیت پکیج های گرمایشی در تأمین آبگرم مصرفی، بهره برداری از بیش از سه دوش حمام با یک دستگاه پکیج گرمایشی معمولا امکان پذیر نمی باشد.) </label>
+
+				</div>
+
+				<div>
+					<label class="q-title">سوال هشت - نوع و کیفیت درزبندي پنجره هاي ساختمان (با معیار مبحث 19 مقررات ملی ساختمان) : </label>
+					<label><input type="radio" value="1" name="Ans8" required /> پنجره های تک جداره (درزبندی عادی) </label>
+					<label><input type="radio" value="2" name="Ans8"checked/> پنجره های دو جداره (درزبندی هوابند) </label>
+
+				</div>
+
+				<div>
+					<label class="q-title">سوال نه - نوع و کیفیت بهره برداری از ساختمان</label>
+					<label><input type="radio" value="1" name="Ans9" required checked/> کاربری و بهره برداری عادی (از لحاظ مصارف انرژی) </label>
+					<label><input type="radio" value="2" name="Ans9"/> کاربری و بهره برداری لوکس و پرمصرف  </label>
+
+				</div>
+
+				<div>
+					<input type="submit" value="تأیید و ارسال" name="" >
+				</div>
+			</section>
+
+		</div>
+	</form>	
+	
+	<script>
+        var state_select = document.getElementById("States");
+        var city_select = document.getElementById("Cities");
+        var input_list = document.getElementById("state_input");
+        var input_list2 = document.getElementById("city_input");
+        // var but1 = document.getElementById("but1");
+        // var but2 = document.getElementById("but2");
+
+        input_list.onfocus = function()  {
+             
+            // state = state_select.value;
+			input_list.value = ''
+			
+            
+            fetch('/states').then(function(response) {
+
+                response.json().then(function(data) {
+                    var optionHTML = '';
+
+                    for (var state of data.states) {
+                        optionHTML += '<option value="' + state.name +'"></option>';
+                    }
+
+                    state_select.innerHTML = optionHTML;
+                })
+                
+            });
+        }
+
+        input_list.onchange = function()  {
+             
+             state = input_list.value;
+			 input_list2.value = ''
+            //  city_select.innerHTML = '<option>' + state + '</option>';
+             
+             fetch('/cities/'+ state).then(function(response) {
+ 
+                 response.json().then(function(data) {
+                     var optionHTML = '';
+ 
+                     for (var city of data.cities) {
+                         optionHTML += '<option >' + city.name + '</option>';
+                     }
+ 
+                     city_select.innerHTML = optionHTML;
+                 })
+                 
+             });
+         }
+    </script>
+
+</body>
+</html>
