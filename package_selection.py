@@ -1,6 +1,16 @@
 from flask import Flask, render_template, request, jsonify
-import sqlite3
+import sqlite3, datetime
 app = Flask(__name__)
+
+def log_report(key, value):
+    if value == 'erase log':
+        with open('logfile.txt','w') as f:
+            log_report('Last run: ', datetime.datetime.now())
+
+        return
+    with open('logfile.txt', 'a', encoding='utf8') as log_file:
+        
+        log_file.write('\n----------\n{0} >> {1}'.format(key, value))
 
 @app.route('/package-form/')
 def select_package():
@@ -9,49 +19,49 @@ def select_package():
 
 @app.route('/recommend-package', methods = ['POST', 'GET'])
 def recommed_package():
+    
     if request.method == 'POST':
-        result = request.form
-        # result = {'area': 120}
-        print (result['area'])
-
+        form_result = request.form
         
-
+        print (form_result)
+        
         db_connect = sqlite3.connect('cities.db')
         cursor = db_connect.cursor()
 
-        cursor.execute('SELECT * FROM Cities WHERE City=?',(result['city'],))
+        cursor.execute('SELECT * FROM Cities WHERE City=?',(form_result['city'],))
         city = cursor.fetchone()
 
         # for c in city:
-        K5 = city[3]
-        K6 = city[4]
-        print(city[2])
+        k5 = city[3]
+        k6 = city[4]
+        selected_city = city[2]
+        print(selected_city)
 
         # city.close()
 
-        Ans5 = int(result['Ans5'])
+        Ans5 = int(form_result['Ans5'])
         Ans5_list = [0, 1, 1.3, 1.6, 2, 0.8]
         k1 = Ans5_list[Ans5]
 
 
-        Ans7 = int(result['Ans7'])
+        Ans7 = int(form_result['Ans7'])
         if Ans7 == 4: n =0
         else: n = Ans7
 
-        Ans8 = int(result['Ans8'])
-        if Ans8 == 1 : k2 = 0.93
-        else: k2 = 1
+        Ans8 = int(form_result['Ans8'])
+        if Ans8 == 1 : k2 = 1
+        else: k2 = 0.93
 
-        Ans9 = int(result['Ans9'])
+        Ans9 = int(form_result['Ans9'])
         if Ans9 == 1 : k3 = 1
         else: k3 = 1.15
 
-        k4 = 1 + (0.02 * K5)
-        k7 = 1 + (0.00014 * K6) 
+        k4 = 1 + (0.02 * k5)
+        k7 = 1 + (0.00014 * k6) 
 
-        A = int(result['area'])
+        Area = int(form_result['area'])
 
-        P = A * k1 * k2 * k3 * k4 * 120
+        P = int(Area * k1 * k2 * k3 * k4 * 120)
         Q = P + int(n * 12023)
         R = P + int(n * 8516)
         S = P + int(n * 6777)
@@ -135,16 +145,14 @@ def recommed_package():
         Z = 0.000119 * k7 * P
     
         # eval(string type variable)
-        Ans1 = int(result['Ans1'])
-        Ans3 = int(result['Ans3'])
-        Ans4 = int(result['Ans4'])
-        Ans7 = int(result['Ans7'])
+        Ans1 = int(form_result['Ans1'])
+        Ans3 = int(form_result['Ans3'])
+        Ans4 = int(form_result['Ans4'])
+        Ans7 = int(form_result['Ans7'])
 
         combi = [Ans4, Ans1, Ans3, Ans7]
         print('combination is', combi)
         
-        # db_connect = sqlite3.connect('cities.db')
-        # cursor = db_connect.cursor()
         cursor.execute('SELECT * FROM Combinations WHERE combi=?',(str(combi),))
         combination = cursor.fetchone()
         # cursor.close()
@@ -156,6 +164,16 @@ def recommed_package():
         parts.append(eval(combination[4]))
 
         
+        report_list = [ 'Area', 'selected_city',  
+                        'Ans1', 'Ans3', 'Ans4', 'Ans5', 'Ans7', 'Ans8', 'Ans9',
+                        'k1', 'k2', 'k3', 'k4', 'k5', 'k6', 'k7',
+                        'P', 'Q', 'R', 'S',
+                        'B', 'C', 'D', 'E', 'F', 'F1', 'G', 'H', 'I',
+                        'J', 'K', 'L', 'M', 'O', 'Q1', 'T', 'U', 'V',
+                        'W', 'X', 'Y1', 'Y2', 'Y3', 'Z', 'Z1']
+
+        for var in report_list:
+            log_report(var, eval(var))
 ####################################################################################################
 #                                for loops                                                         #
 ####################################################################################################
@@ -246,5 +264,6 @@ def return_cities(province):
 app.add_url_rule('/','package-form', select_package )
 
 if __name__ == '__main__':
+    log_report('key','erase log')
     app.run(debug=True, host='0.0.0.0')
 
