@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, make_response
 import sqlite3, datetime
 app = Flask(__name__)
 
@@ -15,7 +15,9 @@ def log_report(key, value):
 @app.route('/package-form/')
 def select_package():
 
-    return render_template('package-form.html')
+    resp = make_response(render_template('package-form.html')) # this line was added only to test make_response functionality
+    # resp.set_cookie('UserID', 'No users yet') # cookies can be set using make_response
+    return resp
 
 @app.route('/recommend-package', methods = ['POST', 'GET'])
 def recommed_package():
@@ -144,7 +146,6 @@ def recommed_package():
 
         Z = 0.000119 * k7 * P
     
-        # eval(string type variable)
         Ans1 = int(form_result['Ans1'])
         Ans3 = int(form_result['Ans3'])
         Ans4 = int(form_result['Ans4'])
@@ -155,15 +156,12 @@ def recommed_package():
         
         cursor.execute('SELECT * FROM Combinations WHERE combi=?',(str(combi),))
         combination = cursor.fetchone()
-        # cursor.close()
-
-        parts = []
         
+        parts = []
         parts.append(eval(combination[2]))
         parts.append(eval(combination[3]))
         parts.append(eval(combination[4]))
 
-        
         report_list = [ 'Area', 'selected_city',  
                         'Ans1', 'Ans3', 'Ans4', 'Ans5', 'Ans7', 'Ans8', 'Ans9',
                         'k1', 'k2', 'k3', 'k4', 'k5', 'k6', 'k7',
@@ -209,6 +207,7 @@ def recommed_package():
             result.append(temp)
 
         print('number of texts', len(result))
+        
 
         return render_template('recommend-package.html', result = result)
     else:
