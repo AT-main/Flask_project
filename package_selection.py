@@ -2,15 +2,24 @@ from flask import Flask, render_template, request, jsonify, make_response
 import sqlite3, datetime
 app = Flask(__name__)
 
-def log_report(key, value):
-    if value == 'erase log':
+def log_report(*args, **kwargs):
+    if kwargs.get('value', 0):
         with open('logfile.txt','w') as f:
-            log_report('Last run: ', datetime.datetime.now())
-
+            f.write('Last run: ' + str (datetime.datetime.now()) +'\n\n')
         return
+    
     with open('logfile.txt', 'a', encoding='utf8') as log_file:
-        
-        log_file.write('\n----------\n{0} >> {1}'.format(key, value))
+        count = 1
+        for key, value in kwargs['report_dict'].items():
+            if type(value) == float:
+                txt = '{0:^6} >> {1:^8.2f}|'.format(key, value)
+            
+            else: txt = '{0:^6} >> {1:^8}|'.format(key, value)
+            
+            count += 1
+            if  not (count % 4): txt += '\n\n'
+            log_file.write(txt)
+            
 
 @app.route('/package-form/')
 def select_package():
@@ -36,8 +45,8 @@ def recommed_package():
         # for c in city:
         k5 = city[3]
         k6 = city[4]
-        selected_city = city[2]
-        print(selected_city)
+        _city = city[2]
+        print(_city)
 
         # city.close()
 
@@ -183,7 +192,7 @@ def recommed_package():
         parts.append(eval(combination[3]))
         parts.append(eval(combination[4]))
 
-        report_list = [ 'Area', 'selected_city',  
+        report_list = [ 'Area', '_city',  
                         'Ans1', 'Ans3', 'Ans4', 'Ans5', 'Ans7', 'Ans8', 'Ans9',
                         'k1', 'k2', 'k3', 'k4', 'k5', 'k6', 'k7',
                         'P', 'Q', 'R', 'S',
@@ -191,10 +200,13 @@ def recommed_package():
                         'J', 'K', 'L', 'M', 'O', 'Q1', 'T', 'U', 'V',
                         'W', 'X', 'Y1', 'Y2', 'Y3', 'Z', 'Z1']
 
-        log_report('key','erase log')
+        log_report(value = 'erase')
 
-        for var in report_list:
-            log_report(var, eval(var))
+        report_dict = {}
+        for param in report_list:
+            report_dict[param] = eval(param)
+        
+        log_report(report_dict = report_dict)
 ####################################################################################################
 #                                for loops                                                         #
 ####################################################################################################
