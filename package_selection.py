@@ -61,7 +61,7 @@ def recommed_package():
         k4 = 1 + (0.02 * k5)
         k7 = 1 + (0.00014 * k6) 
 
-        Area = int(form_result['area'])
+        Area = abs(int(form_result['area']))
 
         P = int(Area * k1 * k2 * k3 * k4 * 120)
         Q = P + int(n * 12023)
@@ -74,65 +74,86 @@ def recommed_package():
             B = 0.000122 * P
 
         c_dict = {'CP36': 36, 'CP45': 45, 'CP65': 65, 'CP85': 85, 'CP125': 125, 'CP160': 160, 'CP200': 200}
-        
-        for key, value in c_dict.items():
-            if S <= value * 1000: 
-                C = key
-                D = value * 1000
-                
-                break
-        
-        E = 0.000128 * k7 * Q
-
         f_dict = {'28000': 27.5, '32000': 31.5, '36000': 35.5, '39000': 38, '45000': 44.5, '50000': 49, '54000': 53}
-        for key, value in f_dict.items():
-            if R <= value * 1000: 
-                F = key
-                break
+        h_dict = {'18': 15, '24': 20, '28': 23.5, '32': 27, '36': 30.5, '40': 33.5}
+        
+        if S > 200000:
+            C = ''
+            D = 0
+        else:
+            for key, value in c_dict.items():
+                if S <= value * 1000: 
+                    C = key
+                    D = value * 1000
+                    break
+        if S > 53000: G = ''
+        else:
+            for key, value in f_dict.items():
+                if S <= value * 1000: 
+                    G = key
+                    break
+
+        E = 0.000128 * k7 * Q
+        
+        if R > 53000: F = 0
+        else:
+            for key, value in f_dict.items():
+                if R <= value * 1000: 
+                    F = key
+                    break
         
         F1 = 0.000119 * k7 * Q
         
-        for key, value in f_dict.items():
-            if S <= value * 1000: 
-                G = key
-                break
+        if P > 33500: H = ''
+        else:
+            for key, value in h_dict.items():
+                if P <= value * 1000: 
+                    H = key
+                    break
         
-        h_dict = {'18': 15, '24': 20, '28': 23.5, '32': 27, '36': 30.5, '40': 33.5}
-        for key, value in h_dict.items():
-            if P <= value * 1000: 
-                H = key
-                break
-        
-        for key, value in c_dict.items():
-            if R <= value * 1000: 
-                I = key
-                O = value * 1000
-                break
+        if R > 200000: 
+            I = ''
+            O = 0
+        else:
+            for key, value in c_dict.items():
+                if R <= value * 1000: 
+                    I = key
+                    O = value * 1000
+                    break
         
         J = 0.000128 * k7 * R
 
         K = 0.000128 * k7 * S
 
-        for key, value in f_dict.items():
-            if Q <= value * 1000: 
-                L = key
-                break
+        if Q > 53000: L = ''
+        else:
+            for key, value in f_dict.items():
+                if Q <= value * 1000: 
+                    L = key
+                    break
         
-        for key, value in f_dict.items():
-            if P <= value * 1000: 
-                M = key
-                break
+        if P > 53000: M = ''
+        else:
+            for key, value in f_dict.items():
+                if P <= value * 1000: 
+                    M = key
+                    break
 
         Q1 = 0.000119 * k7 * R
 
         T = 0.000119 * k7 * S
 
-        for key, value in c_dict.items():
-            if P <= value * 1000: 
-                U = key
-                V = value * 1000
-                Z1 = key + '-S'
-                break
+        if P > 200000:
+            U = ''
+            V = 0
+            Z1 = ''
+        else:
+            for key, value in c_dict.items():
+                if P <= value * 1000: 
+                    U = key
+                    V = value * 1000
+                    Z1 = key + '-S'
+                    break
         
         W = 0.000122 * P
 
@@ -169,6 +190,8 @@ def recommed_package():
                         'B', 'C', 'D', 'E', 'F', 'F1', 'G', 'H', 'I',
                         'J', 'K', 'L', 'M', 'O', 'Q1', 'T', 'U', 'V',
                         'W', 'X', 'Y1', 'Y2', 'Y3', 'Z', 'Z1']
+
+        log_report('key','erase log')
 
         for var in report_list:
             log_report(var, eval(var))
@@ -263,6 +286,5 @@ def return_cities(province):
 app.add_url_rule('/','package-form', select_package )
 
 if __name__ == '__main__':
-    log_report('key','erase log')
     app.run(debug=True, host='0.0.0.0')
 
