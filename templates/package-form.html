@@ -6,8 +6,8 @@
 	<meta name="description" content="با پر کردن این فرم نوع و ظرفیت پکیج مناسب شما 
 	پیشنهاد داده خواهد شد">
 	<!-- <link rel="stylesheet" type="text/css" href="" /> -->
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<style>
 		.w3-myfont {
 			font-family: "Comic Sans MS", cursive, sans-serif;
@@ -15,12 +15,14 @@
 
 		.w3-Tahoma {
 			font-family: "Tahoma", serif;
+			
 		}
 		
 		.w3-Tahoma-bold {
 			font-family: "Tahoma", serif;
 			font-weight: bold;
 			font-size: w3-large; 
+			color:royalblue;
 		}
 	</style>
 
@@ -50,7 +52,7 @@
 					</p >
 					<p class="w3-border-bottom">
 						<p><label for="areaBox" class="w3-Tahoma-bold">سوال دو - کل متراژ گرم شونده ساختمان مورد نظر: </label></p>
-						<input class="w3-input " type="text" placeholder="مترمربع">
+						<input class="w3-input" value="84" name="area" type="number" placeholder="مترمربع" id="AreaId" required>
 					</p>
 					
 					<p class="">
@@ -82,20 +84,17 @@
 					<p class="w3-border-bottom">
 						<p></p><label class="w3-Tahoma-bold">سوال شش - منطقه ای که پروژه در آن واقع شده است: </label></p>
 						<p>
-						<select class="w3-select" name="option">
+						<select class="w3-select" name="state" id="States" required>
 							<option value="" disabled selected>استان</option>
-							<option value="1">Option 1</option>
-							<option value="2">Option 2</option>
-							<option value="3">Option 3</option>
-						  </select>
+						</select>
 						</p>
 						<p>
-						<select class="w3-select" name="option">
+						<select class="w3-select" name="city" id="Cities" required
+								oninvalid="this.setCustomValidity('لطفا شهر را انتخاب نمایید')"
+								oninput="this.setCustomValidity('')">
 							<option value="" disabled selected>شهر</option>
-							<option value="1">Option 1</option>
-							<option value="2">Option 2</option>
-							<option value="3">Option 3</option>
-						  </select>
+							
+						</select>
 						</p>
 					</p>
 
@@ -123,51 +122,63 @@
 					</p>
 
 					<p>
-						<input class="w3-btn w3-teal" type="submit" value="تأیید و ارسال" name="" >
+						<input class="w3-btn w3-blue" type="submit" value="تأیید و ارسال" name="">
 					</p>
 				</section>
 
 			</div>
 		</form>	
 	</div>
+
+	<footer dir="ltr" style="text-align:center;" >
+		<span>Azaran Sanat Emertat <br> &copy; 2018 Azaran Sanat Emertat</span>
+		
+	</footer>
+
 	<script>
         var state_select = document.getElementById("States");
         var city_select = document.getElementById("Cities");
-        var input_list = document.getElementById("state_input");
-        var input_list2 = document.getElementById("city_input");
-        // var but1 = document.getElementById("but1");
-        // var but2 = document.getElementById("but2");
+        
+		document.addEventListener('DOMContentLoaded', function() {
+			fetch('/states').then(function(response) {
 
-        input_list.onfocus = function()  {
+					response.json().then(function(data) {
+						var optionHTML = '<option value=0>' + 'استان' + '</option>';
+
+						for (var state of data.states) {
+							optionHTML += '<option value="' + state.id + '">' + state.name + '</option>';
+					}
+
+					state_select.innerHTML = optionHTML;
+					})
+
+					});
+				
+			}, false);
+        // state_select.ondblclick = function()  {
              
-            // state = state_select.value;
-			input_list.value = ''
-			
-            
-            fetch('/states').then(function(response) {
+		// 	fetch('/states').then(function(response) {
 
-                response.json().then(function(data) {
-                    var optionHTML = '';
+		// 		response.json().then(function(data) {
+		// 			var optionHTML = '';
 
-                    for (var state of data.states) {
-                        optionHTML += '<option value="' + state.name +'"></option>';
-                    }
+		// 			for (var state of data.states) {
+		// 				optionHTML += '<option value="' + state.id + '">' + state.name + '</option>';
+		// 		}
 
-                    state_select.innerHTML = optionHTML;
-                })
-                
-            });
-        }
+		// 		state_select.innerHTML = optionHTML;
+		// 	})
 
-        input_list.onchange = function()  {
+		// 	});
+        // }
+
+        state_select.onchange = function()  {
              
-             state = input_list.value;
-			 input_list2.value = ''
-            //  city_select.innerHTML = '<option>' + state + '</option>';
-             
-             fetch('/cities/'+ state).then(function(response) {
+            state = state_select.value;
+			 
+            fetch('/cities/'+ state).then(function(response) {
  
-                 response.json().then(function(data) {
+                response.json().then(function(data) {
                      var optionHTML = '';
  
                      for (var city of data.cities) {
@@ -179,6 +190,12 @@
                  
              });
          }
+
+		 var area_input = document.getElementById("AreaId");
+
+		 area_input.onfocus = function() {
+			 area_input.value = '';
+		 }
     </script>
 
 </body>

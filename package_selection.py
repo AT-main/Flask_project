@@ -276,11 +276,14 @@ def return_states():
 
 @app.route('/cities/<province>/')
 def return_cities(province):
-    
+    print ('>>> {} <<<'.format(province))
     db_connect = sqlite3.connect('cities.db')
     cursor = db_connect.cursor()
+    
+    cursor.execute('SELECT * FROM States WHERE id=?',(province,))
+    state = cursor.fetchone()[1]
 
-    cursor.execute('SELECT * FROM Cities WHERE State=? ORDER BY Id',(province,))
+    cursor.execute('SELECT * FROM Cities WHERE State=? ORDER BY Id',(state,))
     cities = cursor.fetchall()
     cursor.close()
 
