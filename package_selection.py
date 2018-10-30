@@ -28,6 +28,13 @@ def select_package():
     # resp.set_cookie('UserID', 'No users yet') # cookies can be set using make_response
     return resp
 
+@app.route('/home/')
+def home_page():
+
+    resp = make_response(render_template('home_fa.html')) # this line was added only to test make_response functionality
+    # resp.set_cookie('UserID', 'No users yet') # cookies can be set using make_response
+    return resp
+
 @app.route('/recommend-package', methods = ['POST', 'GET'])
 def recommed_package():
     
@@ -298,7 +305,7 @@ def return_cities(province):
     
     return cities_json
     
-app.add_url_rule('/','package-form', select_package )
+app.add_url_rule('/', '/home/',  home_page )
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
