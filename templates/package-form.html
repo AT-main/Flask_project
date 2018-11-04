@@ -7,8 +7,8 @@
 	پیشنهاد داده خواهد شد">
 	<!-- <link rel="stylesheet" type="text/css" href="" /> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-	<style>
+	<link rel="stylesheet" href="">
+	<!-- <style>
 		.w3-myfont {
 			font-family: "Comic Sans MS", cursive, sans-serif;
 		}
@@ -29,20 +29,20 @@
 			font-family: 'MyYekan';
 			src: url('/static/Yekan.woff');
 		}
-	</style>
+	</style> -->
 
-	<h1 class="w3-Tahoma w3-xxlarge" style="text-align: center">گروه تولیدی آذران صنعت</h1>	
+	<h1 class="">گروه تولیدی آذران صنعت</h1>	
 </head>
 
 <body>
 	<header>
 		
 	</header>
-	<div class="w3-card-4 w3-Tahoma" >
-		<div class="w3-container w3-blue">
-			<h1 class="w3-Tahoma w3-large">سوالات جهت پیشنهاد پکیج مناسب شما:</h1>
+	<div class="" >
+		<div class="">
+			<h1 class="">سوالات جهت پیشنهاد پکیج مناسب شما:</h1>
 		</div>
-		<form class="w3-container " method="POST" action="/recommend-package">
+		<form class="" method="POST" action="/recommend-package">
 			
 			<div class="">
 				<section id="selection-form" class="">
@@ -95,8 +95,7 @@
 						</p>
 						<p>
 						<select class="w3-select" name="city" id="Cities" required
-								oninvalid="this.setCustomValidity('لطفا شهر را انتخاب نمایید')"
-								oninput="this.setCustomValidity('')">
+								oninvalid="this.setCustomValidity('لطفا شهر را انتخاب نمایید')">
 							<option value="" disabled selected>شهر</option>
 							
 						</select>
@@ -184,11 +183,13 @@
             fetch('/cities/'+ state).then(function(response) {
  
                 response.json().then(function(data) {
-                     var optionHTML = '<option value=0>' + '' + '</option>';;
+                     var optionHTML = '';
  
                      for (var city of data.cities) {
                          optionHTML += '<option >' + city.name + '</option>';
-                     }
+					 }
+					 
+					 city_select.setCustomValidity('')
  
                      city_select.innerHTML = optionHTML;
                  })
