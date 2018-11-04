@@ -21,17 +21,17 @@
 		.w3-Tahoma-bold {
 			font-family: "MyYekan","Tahoma", serif;
 			font-weight: bold;
-			font-size: w3-xxlarge; 
+			
 			color:royalblue;
 		}
 
 		@font-face {
 			font-family: 'MyYekan';
-			src: url('Yekan.woff');
+			src: url('/static/Yekan.woff');
 		}
 	</style>
 
-	
+	<h1 class="w3-Tahoma w3-xxlarge" style="text-align: center">گروه تولیدی آذران صنعت</h1>	
 </head>
 
 <body>
@@ -40,7 +40,7 @@
 	</header>
 	<div class="w3-card-4 w3-Tahoma" >
 		<div class="w3-container w3-blue">
-			<h1 >انتخاب پکیج</h1>
+			<h1 class="w3-Tahoma w3-large">سوالات جهت پیشنهاد پکیج مناسب شما:</h1>
 		</div>
 		<form class="w3-container " method="POST" action="/recommend-package">
 			
@@ -184,7 +184,7 @@
             fetch('/cities/'+ state).then(function(response) {
  
                 response.json().then(function(data) {
-                     var optionHTML = '';
+                     var optionHTML = '<option value=0>' + '' + '</option>';;
  
                      for (var city of data.cities) {
                          optionHTML += '<option >' + city.name + '</option>';
