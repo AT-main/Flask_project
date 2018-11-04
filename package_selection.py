@@ -9,7 +9,7 @@ def log_report(*args, **kwargs):
         return
     
     with open('logfile.txt', 'a', encoding='utf8') as log_file:
-        count = 1
+        count = 0
         for key, value in kwargs['report_dict'].items():
             if type(value) == float:
                 txt = '{0:^6} >> {1:^8.2f}|'.format(key, value)
