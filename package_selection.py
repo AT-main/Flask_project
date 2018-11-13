@@ -24,7 +24,17 @@ def log_report(*args, **kwargs):
                 txt += '\n\n'
             log_file.write(txt)
 
-
+def replace_values_in_text(text, param_char, param_val):
+    if text == None: 
+        return 
+    output_text = text
+    if type(param_val) == str:
+        output_text = output_text.replace(
+            param_char, param_val) + '\n\n\n'
+    else:
+        output_text = output_text.replace(
+            param_char, str(int(float(param_val)))) + '\n\n\n'
+    return output_text
 @app.route('/package-form/')
 def select_package():
 
@@ -243,6 +253,7 @@ def recommed_package():
         result = []
         for part in parts:
             temp = {}
+            short_text_list = []
             print('>>>>> This part includes: ', part, ' <<<<<')
             for text_id in part:
                 print('text_id is:', text_id)
@@ -257,7 +268,7 @@ def recommed_package():
                 condition = eval(text[2])
                 params = eval(text[3])
                 short_text = text[4]
-                
+
                 if not (condition):
                     print('condition for text', text_id,
                           ':<<', text[2], '>> is not met')
@@ -265,16 +276,20 @@ def recommed_package():
 
                 output_text = content
                 for item in params:
-                    if type(eval(item)) == str:
-                        output_text = output_text.replace(
-                            item, eval(item)) + '\n\n\n'
-                    else:
-                        output_text = output_text.replace(
-                            item, str(int(float(eval(item))))) + '\n\n\n'
+                    # if type(eval(item)) == str:
+                    #     output_text = output_text.replace(
+                    #         item, eval(item)) + '\n\n\n'
+                    # else:
+                    #     output_text = output_text.replace(
+                    #         item, str(int(float(eval(item))))) + '\n\n\n'
+                    output_text = replace_values_in_text(content, item, eval(item))
+                    short_text = replace_values_in_text(short_text, item, eval(item))
 
-                temp[text_id] = (output_text)
+                temp[text_id] = output_text
+                if short_text != None:
+                    short_text_list.append(short_text)
 
-            result.append(temp)
+            result.extend([temp, short_text_list])
 
         print('number of texts', len(result))
 

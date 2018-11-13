@@ -63,7 +63,7 @@ a {
 #main-article {
     /* background: red; */
     text-align: justify;
-    padding: 1em;
+    padding: 0em;
 }
 
 #main-article h3 {
@@ -113,8 +113,8 @@ body > div {
     /* padding: 1em; */
 }
 
-body > div > p{
-    padding: 0 10vw;
+body > main {
+    padding: 0 5vw;
     text-align: justify;
 }
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,32 +20,51 @@
                 <li><a href="articles.html">مقالات</a></li>
                 <li><a href="faqs.html">پرسش های متداول</a></li>
                 <li><a href="/package-form">انتخاب پکیج</a></li>
-                <li><a href="contact.html">تماس با ما</a></li>
+                <li><a href="#contact-us">تماس با ما</a></li>
             </ul>
         </nav>
     </header>
-    <div class="">
+    <main class="">
+        <h3>پاسخ خلاصه</h3>
+        {% for i in range(1,6,2) %}
+        {% for sub in result[i] %}
+        <p>{{sub}}</p>
+        {% endfor %}
+        {% endfor %}
+
         <h3>پیشنهاد نوع دستگاه گرمایشی برای این پروژه</h3>
-        
         {% for id, text in result[0].items() %}
-        <p>{{ id }}</p>
+        <!-- <p>{{ id }} >></p> -->
         <p>{{ text }}</p>
         {% endfor %}
 
-        <h3 >سایر ملاحظات و الزامات برای این پروژه</h3>
-        {% for id, text in result[1].items() %}
-        <p>{{ id }}</p>
-        <p>{{ text }}</p>
-        {% endfor %}
-
-        <h3 >پیشنهاد پکیج زمینی شرکت آذران صنعت امرتات</h3>
+        <h3>سایر ملاحظات و الزامات برای این پروژه</h3>
         {% for id, text in result[2].items() %}
-        <p>{{ id }}</p>
+        <!-- <p>{{ id }}</p> -->
         <p>{{ text }}</p>
         {% endfor %}
-    </div>
+
+        <h3>پیشنهاد پکیج زمینی شرکت آذران صنعت امرتات</h3>
+        {% for id, text in result[4].items() %}
+        <!-- <p>{{ id }}</p> -->
+        <p>{{ text }}</p>
+        {% endfor %}
+
+        <section>
+            <div>
+                <h3 id="contact-us">تماس با ما</h3>
+                <ul>
+                    <li>آدرس: تهران کیلومتر 15 جاده خاوران</li>
+                    <li>تلفن: 6804125 0912</li>
+                    <!-- <li><a href="articles.html">مقالات</a></li> -->
+                </ul>
+            </div>
+        </section>
+
+    </main>
     <footer>
-		<span>Azaran Sanat Emertat <br> &copy; 2018 Azaran Sanat Emertat</span>
-	</footer>
+        <span>&copy; Azaran Sanat Emertat 2018 </span>
+    </footer>
 </body>
+
 </html>
