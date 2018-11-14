@@ -121,3 +121,24 @@ body > main {
 /* body > div > */ h3 {
     text-align: center;
 }
+
+select {
+    border:none; 
+    border-bottom: 1px solid #e1e1e1; 
+    width: 20rem; 
+    height: 2rem; 
+    max-width: 100%; 
+    font-family: MyYekan;
+}
+
+.AT-input {
+    padding:0.5rem;
+    display:block;
+    border:none;
+    border-bottom:1px solid #ccc;
+    width: 20rem;
+    height: auto;
+    max-width:90%;
+    font-family: MyYekan;
+    font-size: 1rem;
+}

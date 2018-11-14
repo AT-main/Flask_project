@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <header id="main-header" class="clearfix">
+    <!-- <header id="main-header" class="clearfix">
         <h1>آذران صنعت امرتات</h1>
         <nav>
             <ul>
@@ -27,7 +27,8 @@
                 <li><a href="#contact-us">تماس با ما</a></li>
             </ul>
         </nav>
-    </header>
+    </header> -->
+    {% include 'header.html' %}
     <main>
         <aside id="main-article">
             <figure>
@@ -77,14 +78,13 @@
         </aside> -->
 
         <section>
-            <div>
+            <!-- <div>
                 <h3 id="contact-us">تماس با ما</h3>
                 <ul>
                     <li>آدرس: تهران کیلومتر 15 جاده خاوران</li>
                     <li>تلفن: 6804125 0912</li>
-                    <!-- <li><a href="articles.html">مقالات</a></li> -->
                 </ul>
-            </div>
+            </div> -->
 
             <!-- <div>
                 <h3>شبکه های اجتماعی</h3>
@@ -96,10 +96,12 @@
             </div> -->
         </section>
     </main>
+    
 </body>
-<footer>
+{% include 'footer.html' %}
+<!-- <footer>
     <span>&copy; Azaran Sanat Emertat 2012-2018 </span>
 
-</footer>
+</footer> -->
 
 </html>
