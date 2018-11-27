@@ -17,7 +17,7 @@
             <h3>پاسخ خلاصه</h3>
             {% for i in range(1,6,2) %}
             {% for sub in result[i] %}
-            <p>{{sub}}</p>
+            <section><div><p>{{sub}}</p></div></section>
             {% endfor %}
             {% endfor %}
         </div>
@@ -25,7 +25,7 @@
         <h3>پیشنهاد نوع دستگاه گرمایشی برای این پروژه</h3>
         {% for id, text in result[0].items() %}
         <!-- <p>{{ id }} >></p> -->
-        <p>{{ text }}</p>
+        <p>{{ text|safe }}</p>
         {% endfor %}
 
         <h3>سایر ملاحظات و الزامات برای این پروژه</h3>

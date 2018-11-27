@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="description" content="شرکت تولیدی و صنعتی آذران صنعت امرتات تولید کننده پکیج های زمینی و 
+    سیستم های گرمایشی با کیفیت و استاندارد روز اروپا" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>آذران صنعت امرتات - صفحه اصلی</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/styles.css">
+</head>
+
+<body>
+    {% include 'header.html' %}
+    <main>
+        
+            {% for product in products[1:] %}
+            <section><div class="clearfix">
+            <p>
+                <h3>محصول: {{product[1]}}</h3>
+                <figure>
+                        <img src={{product[12]}} alt="" />
+                </figure>
+            </p>
+            {% for i in range(2,12) %}
+            {% if product[i] %}
+            <p><strong>{{products[0][i]}}: </strong>{{ product[i] }}</p>
+            {% endif %}
+            {% endfor %}
+            </div></section>
+            {% endfor %}
+        
+    </main>
+
+</body>
+{% include 'footer.html' %}
+
+</html>

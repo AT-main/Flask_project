@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="description" content="شرکت تولیدی و صنعتی آذران صنعت امرتات تولید کننده پکیج های زمینی و 
+    سیستم های گرمایشی با کیفیت و استاندارد روز اروپا" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>آذران صنعت امرتات - صفحه اصلی</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/styles.css">
+</head>
+
+<body>
+    {% include 'header.html' %}
+    <main>
+        {% for article in articles %}
+        <p><h3>{{article['title']}}</h3></p>
+        <p>{{article['summary']}}</p>
+        {% endfor %}
+    </main>
+
+</body>
+{% include 'footer.html' %}
+
+</html>

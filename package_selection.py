@@ -1,16 +1,21 @@
 from flask import Flask, render_template, request, jsonify, make_response
 import sqlite3
 import datetime
+import os.path
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "cities.db")
+log_path = os.path.join(BASE_DIR, "logfile.txt")
+static_path = os.path.join(BASE_DIR, "static")
 app = Flask(__name__)
 
 
 def log_report(*args, **kwargs):
     if kwargs.get('value', 0):
-        with open('logfile.txt', 'w') as f:
+        with open(log_path, 'w') as f:
             f.write('Last run: ' + str(datetime.datetime.now()) + '\n\n')
         return
 
-    with open('logfile.txt', 'a', encoding='utf8') as log_file:
+    with open(log_path, 'a', encoding='utf8') as log_file:
         count = 0
         for key, value in kwargs['report_dict'].items():
             if type(value) == float:
@@ -24,17 +29,20 @@ def log_report(*args, **kwargs):
                 txt += '\n\n'
             log_file.write(txt)
 
+
 def replace_values_in_text(text, param_char, param_val):
-    if text == None: 
-        return 
+    if text == None:
+        return
     output_text = text
     if type(param_val) == str:
         output_text = output_text.replace(
-            param_char, param_val) + '\n\n\n'
+            param_char, param_val)
     else:
         output_text = output_text.replace(
-            param_char, str(int(float(param_val)))) + '\n\n\n'
+            param_char, str(int(float(param_val))))
     return output_text
+
+
 @app.route('/package-form/')
 def select_package():
 
@@ -52,6 +60,53 @@ def home_page():
     # resp.set_cookie('UserID', 'No users yet') # cookies can be set using make_response
     return resp
 
+@app.route('/downloads/')
+def downloads_page():
+
+    # this line was added only to test make_response functionality
+    resp = make_response(render_template('downloads_fa.html'))
+    # resp.set_cookie('UserID', 'No users yet') # cookies can be set using make_response
+    return resp
+
+
+@app.route('/products/')
+def products_page():
+    db_connect = sqlite3.connect(db_path)
+    cursor = db_connect.cursor()
+
+    cursor.execute('SELECT * FROM Products')
+    products = cursor.fetchall()
+    cursor.close()
+    columns_lables = ['ردیف', 'محصول', 'شرح', 'تعداد مدلهای ظرفیتی', 'محدوده ظرفیت', 'حداکثر فشار کاری', 'حداکثر دمای کاری',
+                        'تکنیک عملکرد', 'راندمان احتراقی', 'ذخیره آبگرم مصرفی', 'جنس', 'محدوده دمای خط گرمایش از کف']
+    products.insert(0,columns_lables)
+
+    for i in range(1,len(products)):
+        products[i] = products[i][:12] + (('/static/' + products[i][12]),)
+    print(products[1][12])
+    return render_template('products_fa.html', products=products)
+
+
+@app.route('/articles/')
+def articles_page():
+    db_connect = sqlite3.connect(db_path)
+    cursor = db_connect.cursor()
+
+    cursor.execute('SELECT * FROM Articles')
+    articles = cursor.fetchall()
+    cursor.close()
+
+    articleArray = []
+    for article in articles:
+        articleObj = {}
+        articleObj['id'] = article[0]
+        articleObj['title'] = article[1]
+        articleObj['summary'] = article[2][:1000] + ' ...'
+        articleArray.append(articleObj)
+
+    return render_template('articles_fa.html', articles=articleArray)
+    
+
 
 @app.route('/recommend-package', methods=['POST', 'GET'])
 def recommed_package():
@@ -61,7 +116,7 @@ def recommed_package():
 
         print(form_result)
 
-        db_connect = sqlite3.connect('cities.db')
+        db_connect = sqlite3.connect(db_path)
         cursor = db_connect.cursor()
 
         cursor.execute('SELECT * FROM Cities WHERE City=?',
@@ -257,7 +312,7 @@ def recommed_package():
             print('>>>>> This part includes: ', part, ' <<<<<')
             for text_id in part:
                 print('text_id is:', text_id)
-                # db_connect = sqlite3.connect('cities.db')
+                # db_connect = sqlite3.connect(db_path)
                 cursor = db_connect.cursor()
                 cursor.execute(
                     'SELECT * FROM OutputTexts WHERE id=?', (text_id,))
@@ -282,8 +337,10 @@ def recommed_package():
                     # else:
                     #     output_text = output_text.replace(
                     #         item, str(int(float(eval(item))))) + '\n\n\n'
-                    output_text = replace_values_in_text(content, item, eval(item))
-                    short_text = replace_values_in_text(short_text, item, eval(item))
+                    output_text = replace_values_in_text(
+                        output_text, item, eval(item))
+                    short_text = replace_values_in_text(
+                        short_text, item, eval(item))
 
                 temp[text_id] = output_text
                 if short_text != None:
@@ -305,7 +362,7 @@ def recommed_package():
 @app.route('/states/')
 def return_states():
 
-    db_connect = sqlite3.connect('cities.db')
+    db_connect = sqlite3.connect(db_path)
     cursor = db_connect.cursor()
 
     cursor.execute('SELECT * FROM States')
@@ -329,7 +386,7 @@ def return_states():
 @app.route('/cities/<province>/')
 def return_cities(province):
     print('>>> {} <<<'.format(province))
-    db_connect = sqlite3.connect('cities.db')
+    db_connect = sqlite3.connect(db_path)
     cursor = db_connect.cursor()
 
     cursor.execute('SELECT * FROM States WHERE id=?', (province,))
