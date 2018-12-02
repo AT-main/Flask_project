@@ -13,7 +13,7 @@
 </head>
 
 <body>
-	{% include 'header.html' %}
+	{% include 'header_fa.html' %}
 
 	<main class="">
 
@@ -102,7 +102,7 @@
 
 					<div class="w3-border-bottom">
 						<p><label class="w3-Tahoma-bold">سوال هشت - نوع و کیفیت درزبندي پنجره هاي ساختمان (با معیار مبحث 19 مقررات ملی
-								ساختمان) : </label></p>
+								ساختمان): </label></p>
 						<p><label><input class="w3-radio" type="radio" value="1" name="Ans8" required /> پنجره های تک جداره (درزبندی
 								عادی) </label></p>
 						<p><label><input class="w3-radio" type="radio" value="2" name="Ans8" checked /> پنجره های دو جداره (درزبندی
@@ -127,7 +127,7 @@
 		</form>
 	</main>
 
-	{% include 'footer.html' %}
+	{% include 'footer_fa.html' %}
 
 	<script>
 		var state_select = document.getElementById("States");
@@ -149,22 +149,6 @@
 			});
 
 		}, false);
-		// state_select.ondblclick = function()  {
-
-		// 	fetch('/states').then(function(response) {
-
-		// 		response.json().then(function(data) {
-		// 			var optionHTML = '';
-
-		// 			for (var state of data.states) {
-		// 				optionHTML += '<option value="' + state.id + '">' + state.name + '</option>';
-		// 		}
-
-		// 		state_select.innerHTML = optionHTML;
-		// 	})
-
-		// 	});
-		// }
 
 		state_select.onchange = function () {
 

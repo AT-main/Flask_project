@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en-US">
 
 <head>
     <meta charset="utf-8" />
@@ -8,17 +8,26 @@
     سیستم های گرمایشی با کیفیت و استاندارد روز اروپا" />
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>آذران صنعت امرتات - صفحه اصلی</title>
+    <title>Azaran Sanat Emertat - HomePage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="/static/styles.css">
 </head>
 
 <body>
-    {% include 'header_fa.html' %}
+    {% include 'header_en.html' %}
     <main>
-    </main>
+        <aside id="main-article">
+            <figure>
+                <img src="/static/Boiler (1).jpg" alt="دیگ فولادی آبگرم کالور" />
+            </figure>
+            {{intro | safe}}
+        </aside>
 
+        <section>
+        </section>
+    </main>
+    
 </body>
-{% include 'footer_fa.html' %}
+{% include 'footer_en.html' %}
 
 </html>

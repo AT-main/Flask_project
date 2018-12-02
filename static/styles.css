@@ -61,7 +61,6 @@ a {
 }
 
 #main-article {
-    /* background: red; */
     text-align: justify;
     padding: 0em;
 }
@@ -109,16 +108,12 @@ section > div > p {
     margin: 2px 0;
 }
 
-body > div {
-    /* padding: 1em; */
-}
-
 body > main {
     padding: 0 5vw;
     text-align: justify;
 }
 
-/* body > div > */ h3 {
+h3 {
     text-align: center;
 }
 
@@ -141,4 +136,27 @@ select {
     max-width:90%;
     font-family: MyYekan;
     font-size: 1rem;
+}
+
+.hero-image {
+    background-image: url('/static/boiler-welding.jpg');
+    background-color: #e1e1e1;
+    height: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
+  
+.hero-text {
+    text-align: center;
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+.hero-text a h2 {
+    color: #eee;
 }

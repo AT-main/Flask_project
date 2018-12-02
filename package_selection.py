@@ -36,7 +36,7 @@ def replace_values_in_text(text, param_char, param_val):
     output_text = text
     if type(param_val) == str:
         output_text = output_text.replace(
-            param_char, param_val)
+            ' '+param_char, ' '+param_val)
     else:
         output_text = output_text.replace(
             param_char, str(int(float(param_val))))
@@ -52,13 +52,35 @@ def select_package():
     return resp
 
 
-@app.route('/home/')
-def home_page():
+@app.route('/index/')
+def index_page():
+
+    # this line was added only to test make_response functionality
+    resp = make_response(render_template('index.html'))
+    # resp.set_cookie('UserID', 'No users yet') # cookies can be set using make_response
+    return resp
+
+
+@app.route('/home-fa/')
+def home_page_fa():
 
     # this line was added only to test make_response functionality
     resp = make_response(render_template('home_fa.html'))
     # resp.set_cookie('UserID', 'No users yet') # cookies can be set using make_response
     return resp
+
+
+@app.route('/home-en/')
+def home_page_en():
+
+    db_connect = sqlite3.connect(db_path)
+    cursor = db_connect.cursor()
+
+    cursor.execute('SELECT * FROM MiscTexts WHERE title=?', ('Intro_en',))
+    intro = cursor.fetchone()
+    cursor.close()
+
+    return render_template('home_en.html', intro=intro[3])
 
 @app.route('/downloads/')
 def downloads_page():
@@ -408,7 +430,7 @@ def return_cities(province):
     return cities_json
 
 
-app.add_url_rule('/', '/home/',  home_page)
+app.add_url_rule('/', '/index/',  index_page)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
